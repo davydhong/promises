@@ -15,11 +15,7 @@ describe('Collections', function() {
 
     var fileToWriteTo = __dirname + '/../files/file_to_write_to.txt';
 
-    var filesToRead = [
-      __dirname + '/../files/file_to_read.txt',
-      __dirname + '/../files/file_two_read.txt',
-      __dirname + '/../files/file_three_read.txt'
-    ];
+    var filesToRead = [__dirname + '/../files/file_to_read.txt', __dirname + '/../files/file_two_read.txt', __dirname + '/../files/file_three_read.txt'];
 
     beforeEach(function() {
       // Make sure our test file is clean before we try writing to it
@@ -39,11 +35,7 @@ describe('Collections', function() {
           // before this block is run
           fs.readFile(fileToWriteTo, function(err, content) {
             var newFile = content.toString();
-            expect(newFile).to.equal([
-              'This is a file to read',
-              'Yet another file',
-              'A file of three'
-            ].join('\n'));
+            expect(newFile).to.equal(['This is a file to read', 'Yet another file', 'A file of three'].join('\n'));
             done();
           });
         })
@@ -54,7 +46,5 @@ describe('Collections', function() {
       // Clean up anything written to our test file
       fs.writeFileSync(fileToWriteTo, '');
     });
-
   });
-
 });
