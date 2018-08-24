@@ -27,26 +27,27 @@ var getGitHubProfile = function(user, callback) {
   });
 };
 
-var getGitHubProfileAsync = user => {
-  return new Promise((resolve, reject) => {
-    var options = {
-      url: 'https://api.github.com/users/' + user,
-      headers: { 'User-Agent': 'request' },
-      json: true // will JSON.parse(body) for us
-    };
+var getGitHubProfileAsync = Promise.promisify(getGitHubProfile);
+// user => {
+//   return new Promise((resolve, reject) => {
+//     var options = {
+//       url: 'https://api.github.com/users/' + user,
+//       headers: { 'User-Agent': 'request' },
+//       json: true // will JSON.parse(body) for us
+//     };
 
-    request.get(options, function(err, res, body) {
-      console.log(body.message);
-      if (err) {
-        reject(err);
-      } else if (body.message) {
-        reject(new Error('Failed to get GitHub profile: ' + body.message), null);
-      } else {
-        resolve(body);
-      }
-    });
-  });
-};
+//     request.get(options, function(err, res, body) {
+//       console.log(body.message);
+//       if (err) {
+//         reject(err);
+//       } else if (body.message) {
+//         reject(new Error('Failed to get GitHub profile: ' + body.message), null);
+//       } else {
+//         resolve(body);
+//       }
+//     });
+//   });
+// };
 
 // (2) Asyncronous token generation
 var generateRandomToken = function(callback) {
@@ -74,27 +75,11 @@ var readFileAndMakeItFunny = function(filePath, callback) {
       })
       .join('\n');
 
-    callback(funnyFile);
+    callback(err, funnyFile);
   });
 };
 
-var readFileAndMakeItFunnyAsync = function(filePath) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, 'utf8', function(err, file) {
-      if (err) {
-        return reject(err);
-      }
-      var funnyFile = file
-        .split('\n')
-        .map(function(line) {
-          return line + ' lol';
-        })
-        .join('\n');
-
-      resolve(funnyFile);
-    });
-  });
-};
+var readFileAndMakeItFunnyAsync = Promise.promisify(readFileAndMakeItFunny);
 
 // Export these functions so we can test them and reuse them in later exercises
 module.exports = {

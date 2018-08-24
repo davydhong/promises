@@ -22,9 +22,6 @@ var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
     .then(body => {
       fs.writeFileSync(writeFilePath, JSON.stringify(body));
     });
-  // .catch(err => {
-  //   throw new Error('?');
-  // });
 };
 
 // Export these functions so we can test them
